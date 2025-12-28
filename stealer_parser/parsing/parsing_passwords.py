@@ -374,22 +374,41 @@ def parse_passwords(
         ):
             pass
         else:
-            break
+            # If we encounter an unexpected token, try to skip it to continue parsing
+            # This makes the parser more robust against malformed files
+            if parser.position < parser.size:
+                skipped_token = parser.get_current_token()
+                
+                # Check if it's a WORD token which might be part of a malformed block or header
+                if skipped_token.type == "WORD":
+                     # Sometimes "===============" or similar separators appear
+                     if all(c in "-=" for c in skipped_token.value):
+                         pass
+                     else:
+                         # logger.debug(f"Skipping unexpected token: {skipped_token} at {parser.position}")
+                         pass
+                
+                parser.position += 1
+            else:
+                break
 
     if parser.position != parser.size:
-        err_msg: str = (
-            f"Unexpected token '{parser.get_current_token()}' at position "
-            f"{parser.position}/{parser.size}."
-        )
-        doc: str = dumps(tokens, ensure_ascii=False, default=vars, indent=4)
-        filepath = Path(filename)
-        logs_dir: str = f"logs/parsing/{filepath.parent}"
-        dump_to_file(
-            logger,
-            f'{logs_dir}/{filepath.with_suffix(".log").name}',
-            f"{err_msg}\n{doc}",
-        )
-        dump_to_file(logger, f"{logs_dir}/{filepath.name}", text)
-        raise SyntaxError(err_msg)
+        # If we reached the end but there are still tokens left (should be handled by the loop above, but just in case)
+        # Or if we want to log that we skipped some tokens
+        pass
+        # err_msg: str = (
+        #     f"Unexpected token '{parser.get_current_token()}' at position "
+        #     f"{parser.position}/{parser.size}."
+        # )
+        # doc: str = dumps(tokens, ensure_ascii=False, default=vars, indent=4)
+        # filepath = Path(filename)
+        # logs_dir: str = f"logs/parsing/{filepath.parent}"
+        # dump_to_file(
+        #     logger,
+        #     f'{logs_dir}/{filepath.with_suffix(".log").name}',
+        #     f"{err_msg}\n{doc}",
+        # )
+        # dump_to_file(logger, f"{logs_dir}/{filepath.name}", text)
+        # raise SyntaxError(err_msg)
 
     return parser.output

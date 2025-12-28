@@ -55,7 +55,7 @@ If a file can't be parsed, it will be saved into the `logs` folder as well as a 
 ## Requirements
 
 - Python 3.10 or greater
-- [`Poetry`](https://python-poetry.org/)
+- [`uv`](https://github.com/astral-sh/uv)
 
 ## Installation
 
@@ -68,13 +68,13 @@ $ git clone --recurse-submodules https://github.com/lexfo/stealer-parser
 2. Install the project:
 
 ```console
-$ poetry install
+$ uv sync
 ```
 
 3. Activate the virtual environment:
 
 ```console
-$ poetry shell
+$ source .venv/bin/activate
 ```
 
 ## Usage

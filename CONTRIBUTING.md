@@ -29,7 +29,7 @@ If you want to submit a fix or propose a new feature, follow the guidelines belo
 ### Requirements
 
 - Python 3.10 or greater
-- [`Poetry`](https://python-poetry.org/)
+- [`uv`](https://github.com/astral-sh/uv)
 
 ### Installation
 
@@ -38,22 +38,14 @@ If you want to submit a fix or propose a new feature, follow the guidelines belo
 2. Install the project:
 
    ```console
-   $ poetry install
+   $ uv sync
    ```
 
 3. Activate the virtual environment:
 
    ```console
-   $ poetry shell
+   $ source .venv/bin/activate
    ```
-
-4. Install the [`pre-commit`](https://pre-commit.com/) hooks by running:
-
-   ```console
-   $ pre-commit install
-   ```
-
-   Formatting and linting tools will run before each commit.
 
 ### Branch naming
 

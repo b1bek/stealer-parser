@@ -1,24 +1,27 @@
-[tool.poetry]
+[project]
 name = "stealer-parser"
 version = "1.0.0"
 description = "Infostealer logs parser."
-authors = ["matya <135035586+m4tya@users.noreply.github.com>"]
+authors = [
+    {name = "matya", email = "135035586+m4tya@users.noreply.github.com"}
+]
 readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "coloredlogs>=15.0.1",
+    "py7zr>=0.21.0",
+    "rarfile>=4.2",
+    "verboselogs>=1.7",
+]
 
-[tool.poetry.dependencies]
-python = "^3.10"
-coloredlogs = "^15.0.1"
-py7zr = "^0.21.0"
-rarfile = "^4.2"
-verboselogs = "^1.7"
-
-[tool.poetry.scripts]
+[project.scripts]
 stealer_parser = "stealer_parser.main:main"
 
-[tool.poetry.group.dev.dependencies]
-pre-commit = "^3.7.1"
-pycodestyle = "^2.12.0"
+[dependency-groups]
+dev = [
+    "pycodestyle>=2.12.0",
+]
 
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = ["hatchling"]
+build-backend = "hatchling.build"

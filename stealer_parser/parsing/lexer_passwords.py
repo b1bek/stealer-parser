@@ -38,7 +38,7 @@ from stealer_parser.helpers import dump_to_file
 from stealer_parser.ply.src.ply.lex import Lexer, LexError, LexToken, lex
 
 # The ignored characters.
-t_ignore: str = "\t\r"
+t_ignore: str = "\t\r\x0b"
 
 # Ply Lexer's rules are added in the following order:
 # 1. All tokens defined by functions are added in the same order as they appear
