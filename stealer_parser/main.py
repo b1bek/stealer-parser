@@ -4,10 +4,12 @@ from io import BytesIO
 from pathlib import Path
 from zipfile import ZipFile
 
+from dotenv import load_dotenv
 from py7zr import SevenZipFile
 from rarfile import RarFile
 from verboselogs import VerboseLogger
 
+from stealer_parser.database import check_db_connection, get_db_url, init_db, save_leak_to_db
 from stealer_parser.helpers import dump_to_file, init_logger, parse_options
 from stealer_parser.models import ArchiveWrapper, Leak
 from stealer_parser.processing import process_archive
@@ -63,6 +65,7 @@ def read_archive(
 
 def main() -> None:
     """Program's entrypoint."""
+    load_dotenv()
     args: Namespace = parse_options("Parse infostealer logs archives.")
     logger: VerboseLogger = init_logger(
         name="StealerParser", verbosity_level=args.verbose
@@ -90,6 +93,18 @@ def main() -> None:
 
     else:
         dump_to_file(logger, args.outfile, leak)
+
+        # Save to database if configured and reachable
+        db_url = get_db_url()
+        if db_url:
+            if check_db_connection(db_url):
+                try:
+                    init_db(db_url)
+                    save_leak_to_db(db_url, leak, logger)
+                except Exception as err:
+                    logger.error(f"Database error: {err}")
+            else:
+                logger.warning("Database configured but not reachable. Skipping DB storage.")
 
     finally:
         if archive:
