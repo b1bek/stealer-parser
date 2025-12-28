@@ -21,6 +21,7 @@ This tool takes a **logs archive**, parses it, and produces a JSON file.
   Please note that multi-parts ZIP files aren't handled yet.
 - Parses files containing credentials and information about compromised systems.
 - Outputs result as **JSON**.
+- **Database support**: Optionally store results in a PostgreSQL database.
 
 ### Result
 
@@ -76,6 +77,18 @@ $ uv sync
 ```console
 $ source .venv/bin/activate
 ```
+
+4. (Optional) Configure the database:
+
+   Copy the example environment file:
+   ```console
+   $ cp .env.example .env
+   ```
+   
+   Edit `.env` and set your PostgreSQL connection URL:
+   ```bash
+   POSTGRES_URL=postgresql://user:password@localhost:5432/dbname
+   ```
 
 ## Usage
 
