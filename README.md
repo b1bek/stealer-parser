@@ -57,6 +57,10 @@ If a file can't be parsed, it will be saved into the `logs` folder as well as a 
 
 - Python 3.10 or greater
 - [`uv`](https://github.com/astral-sh/uv)
+- `unrar` (required for `.rar` archives)
+  - macOS: `brew install unrar`
+  - Linux: `sudo apt install unrar` or `sudo dnf install unrar`
+  - Windows: Add `UnRAR.exe` to your PATH.
 
 ## Installation
 
